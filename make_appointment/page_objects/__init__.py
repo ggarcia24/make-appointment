@@ -10,7 +10,7 @@ class BasePage(object):
     def wait_until(
         self,
         expected_condition,
-        timeout=10,
+        timeout=20,
         poll_frequency=0.5,
         ignored_exceptions=None,
     ):
