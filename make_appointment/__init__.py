@@ -1,7 +1,6 @@
 __version__ = "0.1.0"
 import os
 import time
-from datetime import datetime
 import logging
 
 FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -49,24 +48,19 @@ def main():
         .selectVisaType("SERVICEWAHL_DE323-0-2-1-329328")
         .clickNext()
     )
-
-    session_time = datetime.strptime(page.getSessionTime(), "%M:%S")
+    session_time = page.getSessionTime()
 
     TEST_EXECUTION_TIME = 1
     while session_time.minute > TEST_EXECUTION_TIME:
-        logger.debug(f"The session has {session_time.minute}min left")
         messages = page.get_page_messages()
-
         if len(messages) == 0:
             os.system(
-                'osascript -e \'display alert "Check the selenium window" message "There might be an appointment available!"\''
+                'osascript -e \'display alert "Check the selenium window" message "There might be an appointment available! Click OK when you are ready"\''
             )
-            logger.debug("No messages were returned, sleeping for 5 minutes")
-            time.sleep(300)
         else:
             logger.debug("No appointments, sleeping for 10 seconds")
             time.sleep(10)
-        session_time = datetime.strptime(page.getSessionTime(), "%M:%S")
+        session_time = page.getSessionTime()
         page.clickNext()
     logger.debug("Seessiong time finised")
     driver.quit()

@@ -1,3 +1,4 @@
+from datetime import datetime
 import logging
 
 from page_objects import BasePage
@@ -38,15 +39,19 @@ class LandesamtEinwanderung(BasePage, LoadablePage):
                 EC.invisibility_of_element_located(self.page_loading_selector),
                 EC.invisibility_of_element_located(self.form_loading_selector),
             ),
-            timeout=45,
+            timeout=60,
         )
 
-    def getSessionTime(self) -> str:
+    def getSessionTime(self) -> datetime:
         self.wait_for_overlays()
         logger.debug("Getting session time")
         condition = (By.ID, "progressBar")
         self.wait_until(EC.presence_of_element_located(condition))
-        return self.driver.find_element(*condition).text
+        session_time = datetime.strptime(
+            self.driver.find_element(*condition).text, "%M:%S"
+        )
+        logger.debug(f"The session has {session_time.minute}min left")
+        return session_time
 
     def bookAnAppointment(self) -> Self:
         logger.debug("Clicking link")
