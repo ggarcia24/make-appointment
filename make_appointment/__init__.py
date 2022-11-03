@@ -1,7 +1,11 @@
 __version__ = "0.1.0"
+import logging
 import os
 import time
-import logging
+
+from tendo.singleton import SingleInstance
+
+me = SingleInstance()
 
 FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 logging.basicConfig(
@@ -33,7 +37,7 @@ def main():
     options.add_argument("disable-infobars")
 
     driver = webdriver.Chrome(options=options)
-    logger.debug("Start page interations")
+    logger.debug("Start page interactions")
     page = (
         LandesamtEinwanderung(driver)
         .open()
@@ -55,7 +59,7 @@ def main():
         messages = page.get_page_messages()
         if len(messages) == 0:
             os.system(
-                'osascript -e \'display alert "Check the selenium window" message "There might be an appointment available! Click OK when you are ready"\''
+                'osascript -e \'display alert "Check the selenium window" message "There might be an appointment available! Click OK to continue with the script execution"\''
             )
         else:
             logger.debug("No appointments, sleeping for 10 seconds")

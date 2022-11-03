@@ -1,5 +1,5 @@
-from datetime import datetime
 import logging
+from datetime import datetime
 
 from page_objects import BasePage
 from selenium.common.exceptions import TimeoutException

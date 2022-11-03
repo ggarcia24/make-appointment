@@ -8,6 +8,7 @@ authors = ["Gonzalo García <gonzalogarcia243@gmail.com>"]
 python = "^3.10"
 selenium = "^4.5.0"
 click = "^8.1.3"
+tendo = "^0.3.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^5.2"
